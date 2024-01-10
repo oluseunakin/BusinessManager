@@ -22,7 +22,7 @@ model Company {
   ownerId Int @unique
   suppliers Supplier[]
   products ProductOnShelf[]
-  staff User[]
+  staff BusinessUser[]
   stocks Stock[]
   movements ProductMovement[]
   orders PurchaseOrder[]
@@ -32,7 +32,7 @@ model Company {
 }
 
 model Owner {
-  user User @relation(fields: [userId], references: [id])
+  user BusinessUser @relation(fields: [userId], references: [id])
   userId Int @id
   company Company[]
   super Boolean @default(false)
@@ -165,7 +165,7 @@ model AuditTrail {
 }
 
 model UserActivity {
-  user User?
+  user BusinessUser?
   userId Int @id
   lastlogin DateTime @default(now())
   lastloginAsNumber Int
