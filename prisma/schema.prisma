@@ -38,7 +38,7 @@ model Owner {
   super Boolean @default(false)
 }
 
-model User {
+model BusinessUser {
   id Int @id 
   username String
   password String
