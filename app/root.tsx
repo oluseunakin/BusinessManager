@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@netlify/remix-runtime";
+import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -6,13 +6,40 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
+  useRouteError,
 } from "@remix-run/react";
+import stylesheet from "~/tailwind.css";
+import { cssBundleHref } from "@remix-run/css-bundle";
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "New Remix App",
-  viewport: "width=device-width,initial-scale=1",
-});
+export function ErrorBoundary() {
+  const error = useRouteError();
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body className="h-full">
+        <div>An Error Has Occured</div>
+        {isRouteErrorResponse(error) && <div>{error.data}</div>}
+        <Scripts />
+      </body>
+    </html>
+  );
+} 
+
+export const meta: V2_MetaFunction = () => [{ title: "Business Manager | Stock - Account - Audit" }];
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0",
+  },
+  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+];
 
 export default function App() {
   return (
@@ -21,7 +48,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="h-full bg-slate-100">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

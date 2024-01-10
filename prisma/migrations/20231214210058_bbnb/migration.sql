@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "UserActivity" ALTER COLUMN "lastlogin" SET DEFAULT CURRENT_TIMESTAMP;

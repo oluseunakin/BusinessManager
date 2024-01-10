@@ -1,16 +1,15 @@
-const { config } = require("@netlify/remix-edge-adapter");
-const baseConfig =
-  process.env.NODE_ENV === "production"
-    ? config
-    : { ignoredRouteFiles: ["**/.*"], future: config.future };
-
-/**
- * @type {import('@remix-run/dev').AppConfig}
- */
+/** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  ...baseConfig,
-  // This works out of the box with the Netlify adapter, but you can
-  // add your own custom config here if you want to.
-  //
-  // See https://remix.run/docs/en/v1/file-conventions/remix-config
+  cacheDirectory: "./node_modules/.cache/remix",
+  future: {
+    v2_errorBoundary: true,
+    v2_headers: true,
+    v2_meta: true,
+    v2_normalizeFormMethod: true,
+    v2_routeConvention: true,
+  },
+  ignoredRouteFiles: ["**/.*", "**/*.test.{js,jsx,ts,tsx}"],
+  postcss: true,
+  serverModuleFormat: "cjs",
+  tailwind: true,
 };

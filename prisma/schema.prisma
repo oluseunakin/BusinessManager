@@ -1,0 +1,196 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Customer {
+  id Int @id @default(autoincrement())
+  name String @unique
+  invoices Invoice[]
+  companies Company[]
+}
+
+model Company {
+  id Int @id
+  name String @unique
+  address String?
+  owner Owner @relation(fields: [ownerId], references: [userId])
+  ownerId Int @unique
+  suppliers Supplier[]
+  products ProductOnShelf[]
+  staff User[]
+  stocks Stock[]
+  movements ProductMovement[]
+  orders PurchaseOrder[]
+  invoices Invoice[]
+  customers Customer[]
+  ledgers Ledger[]
+}
+
+model Owner {
+  user User @relation(fields: [userId], references: [id])
+  userId Int @id
+  company Company[]
+  super Boolean @default(false)
+}
+
+model User {
+  id Int @id 
+  username String
+  password String
+  role Role @default(USER)
+  activity UserActivity @relation(fields: [activityId], references: [userId])
+  activityId Int @unique
+  owner Owner?
+  company Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Product {
+  name String @id
+  costPrice String
+  description String?
+  productOnShelf ProductOnShelf?
+}
+
+model ProductOnShelf {
+  product Product  @relation(references: [name], fields: [productName])
+  productName String @id
+  inQuantity Int
+  currentQuantity Int @default(0)
+  sellingPrice String
+  purchaseOrders PurchaseOrder[] 
+  productMovements ProductMovement[]
+  stock Stock @relation(references: [id], fields: [stockId])
+  stockId Int
+  company Company @relation(references: [id], fields: [companyId])
+  companyId Int
+}
+
+model Supplier {
+  id Int @id @default(autoincrement())
+  name String @unique
+  address String?
+  phone String?
+  orders PurchaseOrder[]
+  companies Company[]
+}
+
+model PurchaseOrder {
+  id Int @id @default(autoincrement())
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+  supplierId Int
+  date DateTime @default(now())
+  dateAsNumber Int 
+  status Status
+  deliveryDate DateTime?
+  product ProductOnShelf @relation(fields: [productName], references: [productName])
+  productName String 
+  amount String
+  company Company @relation(fields: [companyId], references: [id])
+  companyId Int
+}
+
+enum Status {
+  PENDING
+  RECEIVED
+}
+
+model ProductMovement {  
+  id Int @id @default(autoincrement())
+  product ProductOnShelf @relation(fields: [productName], references: [productName])
+  productName String 
+  quantity Int
+  time DateTime @default(now())
+  timeAsNumber Int
+  type MovementType
+  activity UserActivity @relation(fields: [activityId], references: [userId])
+  activityId Int
+  company Company @relation(fields: [companyId], references: [id])
+  companyId Int
+}
+
+enum MovementType {
+  INWARD
+  OUTWARD
+}
+
+model Ledger {
+  id Int @id @default(autoincrement())
+  name String @unique
+  type AccountType @unique
+  ledgerType LedgerType @unique
+  transactions Transaction[]
+  company Company @relation(references: [id], fields: [companyId])
+  companyId Int
+}
+
+enum AccountType {
+  DEBIT
+  CREDIT
+}
+
+enum LedgerType {
+  ASSET
+  LIABILITY
+  EQUITY
+  REVENUE
+  EXPENSE
+}
+
+model Transaction {
+  id Int @id @default(autoincrement())
+  description String?
+  account Ledger @relation(references: [id], fields: [accountId])
+  accountId Int
+  amount String
+  trail AuditTrail?
+}
+
+model AuditTrail {
+  id Int @id @default(autoincrement())
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+  transactionId Int @unique
+  activity UserActivity @relation(fields: [activityId], references: [userId])
+  activityId Int
+}
+
+model UserActivity {
+  user User?
+  userId Int @id
+  lastlogin DateTime @default(now())
+  lastloginAsNumber Int
+  trails AuditTrail[]
+  productMovements ProductMovement[]
+}
+
+model Stock {
+  id Int @id @default(autoincrement())
+  products ProductOnShelf[]
+  dateAsNumber Int
+  date DateTime
+  company Company @relation(references: [id], fields: [companyId])
+  companyId Int 
+
+  @@unique([dateAsNumber, companyId])
+}
+
+model Invoice {
+  id Int @id @default(autoincrement())
+  customer Customer @relation(references: [id], fields: [customerId])
+  customerId Int
+  bought Json[]
+  date DateTime @default(now())
+  dateAsNumber Int
+  company Company @relation(references: [id], fields: [companyId])
+  companyId Int
+}
