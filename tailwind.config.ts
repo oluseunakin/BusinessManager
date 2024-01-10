@@ -7,6 +7,9 @@ export default {
       height: {
         '9/10': '89%',
         '8.5/10': '85%',
+      },
+      margin: {
+        "mt-53": "53px"
       }
     },
   },

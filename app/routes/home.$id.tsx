@@ -20,20 +20,30 @@ export default function () {
 
   return (
     <>
-      <div className="fixed sm:right-10 sm:top-4 flex gap-14 text-white top-14 right-2">
-        <h1 className="text-xl ">{user.username}</h1>
-        <button
-          className="flex self-end"
-          onClick={() => {
-            setShowSettings(!showSettings);
-          }}
-        >
-          <span className="material-symbols-outlined">menu</span>
-        </button>
+      <div className="fixed text-white bg-gray-700 w-full p-3">
+        <h1 className="text-xl float-left">{user.username}</h1>
+        <div className="flex justify-end gap-2 float-right">
+          <button
+            onClick={() => {
+              setShowSettings(!showSettings);
+            }}
+          >
+            <span className="material-symbols-outlined">menu</span>
+          </button>
+          <button
+            onClick={() => {
+              history.back();
+            }}
+          >
+            <span className="material-symbols-outlined">arrow_back</span>
+          </button>
+        </div>
       </div>
       {showSettings && (
-        <ul className="left-0 -mt-5 fixed right-0 text-xl overflow-auto bg-gray-700 text-center
-         text-white flex flex-col gap-8 px-7 py-9 shadow-transparent md:left-auto z-50">
+        <ul
+          className="left-0 mt-mt-53 fixed right-0 text-xl overflow-auto bg-gray-700 text-center
+         text-white flex flex-col gap-8 px-7 py-9 shadow-transparent md:left-auto z-50"
+        >
           {isAdmin && (
             <li key={0}>
               <Link to="staff">Manage Staff</Link>
@@ -61,15 +71,6 @@ export default function () {
           </li>
         </ul>
       )}
-      <div className="fixed right-1 z-10">
-        <button
-          onClick={() => {
-            history.back();
-          }}
-        >
-          <span className="material-symbols-outlined">arrow_back</span>
-        </button>
-      </div>
       <div className="pt-10">
         <Outlet context={{ user }} />
       </div>
