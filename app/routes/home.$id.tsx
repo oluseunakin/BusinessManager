@@ -42,7 +42,7 @@ export default function () {
       {showSettings && (
         <ul
           className="left-0 mt-mt-53 fixed right-0 text-xl overflow-auto bg-gray-700 text-center
-         text-white flex flex-col gap-8 px-7 py-9 shadow-transparent md:left-auto z-50"
+         text-white flex flex-col gap-8 px-7 py-9 shadow-transparent md:left-auto z-30"
         >
           {isAdmin && (
             <li key={0}>
@@ -71,7 +71,7 @@ export default function () {
           </li>
         </ul>
       )}
-      <div className="pt-10">
+      <div className="mt-24">
         <Outlet context={{ user }} />
       </div>
     </>

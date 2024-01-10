@@ -19,7 +19,7 @@ export default function () {
 
   return (
     <main className="h-full mb-2">
-      <div className="bg-gray-800 text-white fixed p-3 top-0 left-0 right-0 h-auto">
+      <div className="bg-gray-800 text-white fixed p-3 top-0 left-0 right-0 h-auto z-50">
         <div>
           <Link className="text-3xl pt-3 p-2" to="/">
             My Business

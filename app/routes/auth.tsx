@@ -67,8 +67,8 @@ export default function () {
 
   return (
     <div>
-      <div className="flex bg-slate-900 flex-wrap items-center text-white">
-        <h1 className="m-4 text-2xl p-2 text-slate-400">MyBusinessManager</h1>
+      <div className="flex bg-slate-900 flex-wrap items-center text-white p-3">
+        <h1 className="text-2xl text-slate-400">MyBusinessManager</h1>
         <div className="flex justify-end gap-4 flex-grow mt-2 mr-2">
           <button
             className="px-4 py-2 rounded-md bg-amber-600 border"

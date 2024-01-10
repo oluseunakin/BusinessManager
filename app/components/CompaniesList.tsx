@@ -4,7 +4,7 @@ export const CompaniesList = (props: { list: {id: number, name: string}[] }) => 
   const { list } = props;
   return (
     <>
-      <h1 className="text-center text-yellow-900 text-3xl mb-10 w-max mx-auto">
+      <h1 className="text-center text-yellow-900 text-3xl m-10 w-max mx-auto">
         Companies
       </h1>
       <div className="flex flex-wrap gap-4 justify-around text-center">
