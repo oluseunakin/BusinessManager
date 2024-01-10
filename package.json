@@ -13,7 +13,7 @@
     "resetdev": "npx prisma migrate reset",
     "start": "cross-env NODE_ENV=production node ./build/server.js",
     "typecheck": "tsc -b",
-    "setup": "prisma generate && prisma migrate deploy && prisma db seed"
+    "setup": "prisma generate && prisma migrate deploy"
   },
   "dependencies": {
     "@isaacs/express-prometheus-middleware": "^1.2.1",
