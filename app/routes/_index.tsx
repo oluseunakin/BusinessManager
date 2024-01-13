@@ -113,8 +113,8 @@ export default function () {
       </div>
       {type && (
         <div>
-          <h1 className="sm:w-3/5 lg:w-2/5 w-4/5 text-red-500 rounded mx-auto px-6 text-5xl my-8 p-4 text-center">
-            {type === "signup" ? "Sign up here" : "Login here"}
+          <h1 className="sm:w-3/5 w-4/5 text-red-500 rounded mx-auto px-6 text-3xl my-8 p-4 text-center">
+            {type === "signup" ? "Sign up as an administrator or as a staff of a company with a secret key" : "Login here"}
           </h1>
           <fetcher.Form
             method="post"
@@ -172,6 +172,7 @@ export default function () {
                               {company.name}
                             </option>
                           ))}
+                          <option value="cc">I am creating a company</option>
                         </select>
                       )}
                     </Await>
@@ -254,11 +255,11 @@ export default function () {
           <p className="text-3xl">
             Manage and Automate your Business Inventory, Accounting and Auditing
           </p>
-          <p>Get started by creating an account</p>
+          <b className="text-lg">Get started by creating an account</b>
         </div>
-        <div className="flex flex-col gap-6 text-4xl justify-around text-center flex-1 uppercase md:mt-20">
+        <div className="flex flex-col gap-6 text-4xl justify-around text-center flex-1 uppercase md:mt-10">
           <p className="text-green-700">Stock</p>
-          <p className="border-y-2 py-14 my-8 border-gray-950 text-cyan-900">
+          <p className="border-y-2 py-14 my-8 border-gray-950 text-cyan-900 w-3/4 mx-auto">
             Auditing
           </p>
           <p className="text-orange-700">Accounting</p>

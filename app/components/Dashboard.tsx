@@ -23,7 +23,7 @@ export const Dashboard = (props: {
   return (
     <>
       <h2 className="text-slate-700 text-4xl text-center w-max mx-auto mt-2 mb-6">
-        {company!.name}
+        Welcome {company!.name}
       </h2>
       <div className="flex flex-wrap justify-around gap-6 mt-16 text-white">
         <Link
