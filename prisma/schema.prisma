@@ -70,7 +70,7 @@ model ProductOnShelf {
   sellingPrice String
   purchaseOrders PurchaseOrder[] 
   productMovements ProductMovement[]
-  stock Stock @relation(references: [id], fields: [stockId])
+  stock Stock @relation(references: [id], fields: [stockId], onDelete: Cascade)
   stockId Int
   company Company @relation(references: [id], fields: [companyId])
   companyId Int
@@ -93,7 +93,7 @@ model PurchaseOrder {
   dateAsNumber Int 
   status Status
   deliveryDate DateTime?
-  product ProductOnShelf @relation(fields: [productName], references: [productName])
+  product ProductOnShelf @relation(fields: [productName], references: [productName], onDelete: Cascade)
   productName String 
   amount String
   company Company @relation(fields: [companyId], references: [id])
@@ -107,13 +107,13 @@ enum Status {
 
 model ProductMovement {  
   id Int @id @default(autoincrement())
-  product ProductOnShelf @relation(fields: [productName], references: [productName])
+  product ProductOnShelf @relation(fields: [productName], references: [productName], onDelete: Cascade)
   productName String 
   quantity Int
   time DateTime @default(now())
   timeAsNumber Int
   type MovementType
-  activity UserActivity @relation(fields: [activityId], references: [userId])
+  activity UserActivity @relation(fields: [activityId], references: [userId], onDelete: Cascade)
   activityId Int
   company Company @relation(fields: [companyId], references: [id])
   companyId Int
@@ -158,9 +158,9 @@ model Transaction {
 
 model AuditTrail {
   id Int @id @default(autoincrement())
-  transaction Transaction @relation(fields: [transactionId], references: [id])
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
   transactionId Int @unique
-  activity UserActivity @relation(fields: [activityId], references: [userId])
+  activity UserActivity @relation(fields: [activityId], references: [userId], onDelete: Cascade)
   activityId Int
 }
 

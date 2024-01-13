@@ -1,12 +1,7 @@
-import { Link, Outlet, useOutletContext } from "@remix-run/react";
+import { Link, Outlet } from "@remix-run/react";
 import { useRef, useState } from "react";
-import type { Context } from "~/types";
 
 export default function () {
-  const { user } = useOutletContext<Context>();
-  const isAdmin = user.role === "ADMIN";
-  const isCashier = user.role === "USER";
-  const [showCreate, setShowCreate] = useState(true);
   const [products, setProducts] = useState<
     {
       productName: string;
@@ -31,11 +26,6 @@ export default function () {
     <>
       <div className="flex gap-10 items-center flex-wrap">
         <div className="flex gap-4 lg:w-2/5 ml-4 justify-around flex-grow lg:flex-grow-0">
-          {(isAdmin || isCashier) && showCreate && (
-            <Link to="takestock" className="text-blue-600">
-              Create Stock for the day
-            </Link>
-          )}
           <Link to="previous" className="text-blue-600">
             See Previous Stocks{" "}
           </Link>
@@ -62,7 +52,6 @@ export default function () {
       <div className="mt-10">
         <Outlet
           context={{
-            setShowCreate,
             companyProducts: { products, setProducts, productsRef },
           }}
         />

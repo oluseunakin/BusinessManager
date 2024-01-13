@@ -23,6 +23,7 @@ import type { ProductOnShelf, TodayStock } from "~/types";
 import { createOrder } from "~/server/model/orders";
 import { buyMovement } from "~/server/model/movement";
 import { prisma } from "~/server/db.server";
+import { createSupplier } from "~/server/model/supplier";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -65,10 +66,10 @@ export const action = async ({ request, params }: ActionArgs) => {
   const address = fd.get("address") as string;
   const status = fd.get("status") as string as Status;
   const deliveryDate = fd.get("deliveryDate");
-  const supplierId = isNaN(Number(fd.get("supplierId" as string)))
-    ? -1
-    : Number(fd.get("supplierId" as string));
   const companyId = Number(params.id);
+  const supplierId = isNaN(Number(fd.get("supplierId" as string)))
+    ? (await createSupplier(supplierName, companyId, phone, address)).id
+    : Number(fd.get("supplierId" as string));
   const inQuantity = Number(fd.get("inQuantity") as string);
   try {
     await prisma.$transaction(async (tx) => {
@@ -103,15 +104,12 @@ export const action = async ({ request, params }: ActionArgs) => {
       await createOrder(
         tx,
         supplierId,
-        supplierName,
         status,
         companyId,
         todayAsNumber,
         productInShelf.productName,
         sum,
         deliveryDate,
-        phone,
-        address
       );
       await buyMovement(
         productInShelf.productName,

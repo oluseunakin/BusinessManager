@@ -21,7 +21,7 @@ export const addToShelf = async (
   description?: string,
   
 ) => {
-  return await prisma.productOnShelf.create({
+  return await tx.productOnShelf.create({
     data: {
       product: {
         create: { costPrice, name, description },

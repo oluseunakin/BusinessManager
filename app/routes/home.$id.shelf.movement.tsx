@@ -6,7 +6,6 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { PMC } from "~/components/ProductMovementComponent";
 import { Spinner } from "~/components/Spinner";
 import { getCompanyMovements } from "~/server/model/company";
-import type { ProductMovement } from "~/types";
 
 export const loader = async ({ params }: LoaderArgs) => {
   try {
@@ -21,28 +20,28 @@ export const loader = async ({ params }: LoaderArgs) => {
 export default function () {
   const { company } = useLoaderData<typeof loader>();
   const companyRef = useRef<any[]>();
-  const [movements, setMovements] = useState<ProductMovement[]>();
+  const [movements, setMovements] = useState<any[]>();
   const [query] = useSearchParams()
   const type = query.get("type")
   const inwardRef = useRef<HTMLInputElement>(null), outwardRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (companyRef.current && outwardRef.current && inwardRef.current) {
-      setMovements(companyRef.current);
+    if (companyRef.current && outwardRef.current && inwardRef.current) { 
       if(type === "inward") {
         inwardRef.current.checked = true
         const filtered = companyRef.current.filter(
           (movement) => movement.type === MovementType.INWARD
         );
         setMovements(filtered);
-      }else {
+      }else if(type === "outward"){
         outwardRef.current.checked = true
         const filtered = companyRef.current.filter(
           (movement) => movement.type === MovementType.OUTWARD
         );
         setMovements(filtered);
-      }
+      }else setMovements(companyRef.current)
     }
+
   }, [type]);
 
   return (
@@ -109,6 +108,7 @@ export default function () {
         <Await resolve={company}>
           {(company) => {
             companyRef.current = company.movements;
+            //setMovements(company.movements)
             return movements && movements.length >= 1 ? (
               <div className="flex flex-col gap-5 w-11/12 md:w-4/5 mx-auto">
                 <div className="grid grid-cols-4 text-center text-lg text-amber-700">

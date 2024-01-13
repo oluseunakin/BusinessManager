@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import { useFetcher } from "react-router-dom";
 import { Spinner } from "~/components/Spinner";
 import { TransactionComponent } from "~/components/Transaction";
-import { getLedgerByLedgerType, getLedgerByTypeIncludeTransactions } from "~/server/model/ledger";
+import {
+  getLedgerByLedgerType,
+  getLedgerByTypeIncludeTransactions,
+} from "~/server/model/ledger";
 import type { Transaction } from "~/types";
 
 export const action = async ({ request }: ActionArgs) => {
@@ -29,8 +32,8 @@ export default function () {
   }, [fetcher.data, fetcher.state]);
 
   return (
-    <div className="flex flex-col gap-6 mt-6 md:w-2/4 w-11/12 mx-auto">
-      <div className="shadow flex flex-col gap-10 p-3 bg-white mt-4 ">
+    <div className="flex flex-col md:flex-row gap-6 mt-10 w-11/12 mx-auto">
+      <div className="shadow flex flex-col gap-10 p-3 bg-white md:w-2/5 ">
         <div className="flex flex-col gap-4">
           <h4 className="w-max mx-auto text-center text-xl mt-4">
             Select Account type
@@ -73,14 +76,17 @@ export default function () {
         </div>
       </div>
       {fetcher.state === "submitting" && (
-        <div className="flex justify-center">
+        <div className="w-max mx-auto">
           <Spinner width="w-10" height="h-10" />
         </div>
       )}
-      {transactions &&
-        transactions.map((transaction, i) => (
-          <TransactionComponent transaction={transaction} key={i} />
-        ))}
+      {transactions? (
+        <div className="flex-1 shadow h-min flex flex-col gap-4">
+          {transactions.map((transaction, i) => (
+            <TransactionComponent transaction={transaction} key={i} />
+          ))}
+        </div>
+      ): <h3 className="flex justify-center flex-1 text-3xl text-slate-700 items-center">See your transactions</h3>}
     </div>
   );
 }

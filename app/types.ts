@@ -62,7 +62,6 @@ export type TodayStock = Prisma.PromiseReturnType<
 
 export type Context = {
   user: UserWithoutPassword;
-  setShowCreate: React.Dispatch<React.SetStateAction<boolean>>;
   companyProducts: {
     products:
       | {

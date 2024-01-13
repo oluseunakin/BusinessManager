@@ -1,4 +1,4 @@
-import { defer, json } from "@remix-run/node";
+import { defer, json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import {
   Await,
@@ -79,7 +79,7 @@ export const action = async ({ request, params }: ActionArgs) => {
         tx
       );
     });
-    return null;
+    return redirect(`/home/${companyId}/shelf/stock`);
   } catch (e) {
     console.log(e);
     throw json("Something bad happened", 400);
@@ -88,7 +88,7 @@ export const action = async ({ request, params }: ActionArgs) => {
 
 export default function () {
   const { today, customers } = useLoaderData<typeof loader>();
-  const { setShowCreate, companyProducts } = useOutletContext<Context>();
+  const { companyProducts } = useOutletContext<Context>();
   const [cart, addToCart] = useState<
     { name: string; quantity: number; price: number; cq: number }[]
   >([]);
@@ -103,11 +103,10 @@ export default function () {
 
   useEffect(() => {
     if (today) {
-      setShowCreate(false);
       companyProducts.productsRef.current = today.products;
       companyProducts.setProducts(today.products);
     }
-  }, [setShowCreate, today]);
+  }, [today, companyProducts]);
 
   return (
     <>
