@@ -111,7 +111,6 @@ export default function () {
           </button>
         </div>
       </div>
-      
       {type && (
         <div>
           <h1 className="sm:w-3/5 lg:w-2/5 w-4/5 text-red-500 rounded mx-auto px-6 text-5xl my-8 p-4 text-center">
@@ -249,15 +248,19 @@ export default function () {
           </fetcher.Form>
         </div>
       )}
-      <div className="flex flex-col md:flex-row gap-14 mt-10 w-11/12 mx-auto">
-        <div className="flex flex-col items-center gap-4 flex-1 mt-20 text-center">
+      <div className="flex flex-col md:flex-row gap-14 md:mt-10 w-11/12 mx-auto mt-4">
+        <div className="flex flex-col items-center gap-4 flex-1 md:mt-20 text-center mt-10">
           <h2 className="text-5xl my-6 text-red-500">My Business Manager</h2>
-          <p className="text-3xl">Manage and Automate your Business Inventory, Accounting and Auditing</p>
+          <p className="text-3xl">
+            Manage and Automate your Business Inventory, Accounting and Auditing
+          </p>
           <p>Get started by creating an account</p>
         </div>
-        <div className="flex flex-col gap-6 text-4xl justify-around text-center flex-1 uppercase">
+        <div className="flex flex-col gap-6 text-4xl justify-around text-center flex-1 uppercase md:mt-20">
           <p className="text-green-700">Stock</p>
-          <p className="border-y-2 py-14 my-8 border-gray-950 text-cyan-900">Auditing</p>
+          <p className="border-y-2 py-14 my-8 border-gray-950 text-cyan-900">
+            Auditing
+          </p>
           <p className="text-orange-700">Accounting</p>
         </div>
       </div>
